@@ -1,0 +1,71 @@
+---
+title: "Home runs"
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+library(Lahman)
+```
+
+```{r}
+#| cache: true
+shortened_years <- c(1918, 1919, 1981, 1994, 1995, 2020)
+
+# Aggregate season totals and rates once so plot tweaks don't redo the data work
+hr_by_season <- Teams |>
+  as_tibble() |>
+  summarize(
+    total_hr = sum(HR, na.rm = TRUE),
+    total_g = sum(G),
+    hr_per_game = total_hr / total_g,
+    .by = yearID
+  ) |>
+  mutate(
+    season_type = if_else(
+      yearID %in% shortened_years,
+      "Shortened season",
+      "Full season"
+    )
+  ) |>
+  arrange(season_type)
+```
+
+```{r}
+hr_by_season |>
+  ggplot(aes(x = yearID, y = hr_per_game)) +
+  geom_line(color = "grey70", linewidth = 0.6) +
+  geom_point(aes(color = season_type), size = 1.8) +
+  scale_color_manual(
+    values = c("Full season" = "steelblue", "Shortened season" = "firebrick")
+  ) +
+  labs(
+    title = "Major League Home Runs per Game Over Time",
+    subtitle = "Shortened seasons blend right into surrounding eras once measured as a per-game rate",
+    x = "Season",
+    y = "Home Runs per Team-Game",
+    color = "Schedule",
+    caption = "Source: Lahman Baseball Database (Shortened: 1918–19, 1981, 1994–95, 2020)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+```{r}
+Teams |>
+  as_tibble() |>
+  # Keep the normal 2019 season and the three shortened seasons
+  filter(yearID %in% c(1981, 1994, 2019, 2020)) |>
+  summarize(
+    total_hr = sum(HR),
+    total_g = sum(G),
+    # Divide total home runs by team-games to get per-team-per-game rate
+    hr_per_game = total_hr / total_g,
+    .by = yearID
+  ) |>
+  arrange(yearID) |>
+  knitr::kable(
+    digits = 2,
+    col.names = c("Season", "Total Home Runs", "Total Team-Games", "HR per Team-Game")
+  )
+```

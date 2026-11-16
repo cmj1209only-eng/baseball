@@ -1,7 +1,6 @@
 ---
-title: "Baseball"
+title: "Baseball by the Numbers"
 ---
 
-This is a Quarto website.
+Welcome! This site explores the long history of Major League Baseball through its data—tracking how the game, its players, and its eras have evolved over more than a century. All of the charts and analyses here are built in R using historical records from the [Lahman Baseball Database](https://cran.r-project.org/package=Lahman).
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
