@@ -1,0 +1,70 @@
+---
+title: "Sluggers"
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+library(Lahman)
+```
+
+```{r}
+Batting |>
+  as_tibble() |>
+  # Summarize career home runs and career span per playerID
+  summarize(
+    career_hr = sum(HR),
+    first_year = min(yearID),
+    last_year = max(yearID),
+    .by = playerID
+  ) |>
+  slice_max(career_hr, n = 15) |>
+  left_join(
+    People |> select(playerID, nameFirst, nameLast),
+    by = "playerID"
+  ) |>
+  mutate(
+    # Order factor levels by career_hr so the #1 leader appears at the top
+    player = fct_reorder(paste(nameFirst, nameLast), career_hr),
+    era = if_else(
+      last_year >= 1994 & first_year <= 2009,
+      "Active in Steroid Era (1994–2009)",
+      "Outside Steroid Era"
+    )
+  ) |>
+  ggplot(aes(x = career_hr, y = player, fill = era)) +
+  geom_col() +
+  scale_fill_manual(
+    values = c(
+      "Active in Steroid Era (1994–2009)" = "firebrick",
+      "Outside Steroid Era" = "steelblue"
+    )
+  ) +
+  labs(
+    title = "MLB All-Time Career Home Run Leaders",
+    subtitle = "Nine of the top fifteen sluggers played during the 1994–2009 Steroid Era",
+    x = "Career Home Runs",
+    y = NULL,
+    fill = NULL,
+    caption = "Source: Lahman Baseball Database"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+```{r}
+Batting |>
+  as_tibble() |>
+  # Filter to Barry Bonds and sum HR per season
+  filter(playerID == "bondsba01") |>
+  summarize(hr = sum(HR), .by = yearID) |>
+  ggplot(aes(x = yearID, y = hr)) +
+  geom_col(fill = "firebrick") +
+  labs(
+    title = "Barry Bonds: Home Runs by Season (1986–2007)",
+    x = "Season",
+    y = "Home Runs",
+    caption = "Source: Lahman Baseball Database"
+  ) +
+  theme_minimal()
+```
