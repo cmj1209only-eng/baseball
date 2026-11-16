@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Baseball by the Numbers",
+    "section": "",
+    "text": "This site explores more than a century of Major League Baseball history using records from the Lahman Baseball Database. Across the league as a whole, raw season home-run totals appear to suffer sudden collapses in years like 1981, 1994, and 2020—until we account for shortened schedules. Measuring home runs per team-game smooths away those artificial dips and reveals a dramatic long-term climb from the Dead-Ball Era to today’s power-first game.\nZooming in on individual hitters tells a parallel story about eras and power. Nine of the fifteen players with the most career home runs in MLB history were active during the 1994–2009 Steroid Era, led by all-time king Barry Bonds (762 career home runs), whose late-career surge peaked at 73 home runs in 2001. Use the Home runs and Sluggers links in the navigation bar above to explore the full charts and analyses."
+  },
+  {
+    "objectID": "home-runs.html",
+    "href": "home-runs.html",
+    "title": "Home runs",
+    "section": "",
+    "text": "Season\nTotal Home Runs\nTotal Team-Games\nHR per Team-Game\n\n\n\n\n1981\n1781\n2788\n0.64\n\n\n1994\n3306\n3200\n1.03\n\n\n2019\n6776\n4858\n1.39\n\n\n2020\n2304\n1796\n1.28"
+  }
+]
